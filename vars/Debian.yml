@@ -1,0 +1,3 @@
+---
+__ftp_user_db: "/etc/pure-ftpd/conf/PureDB"
+__ftp_user_db_sym: "/etc/pure-ftpd/auth/60puredb"

@@ -1,0 +1,35 @@
+---
+# Variable setup.
+- name: Include OS-specific variables.
+  include_vars: "{{ ansible_os_family }}.yml"
+
+# Setup/install tasks.
+- include: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+# Pure-FTPd setup
+# TODO: change the server config files?
+- name: Create the FTP system group '{{ ftp_group }}'
+  group: name={{ ftp_group }} state=present
+
+- name: Create the FTP system user '{{ ftp_user }}'
+  user: name={{ ftp_user }} group={{ ftp_group }} home=/dev/null shell=/sbin/nologin
+
+- name: Create FTP server root directory
+  file: dest={{ ftp_root }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
+
+# Create the virtual FTP users and set their passwords
+- include: virtual-user.yml
+  with_items: "{{ virtual_users }}"
+
+#- name: Create virtual FTP user database
+#  command: pure-pw mkdb
+
+- name: Link virtual FTP user database to the correct location
+  file: src={{ __ftp_user_db }} dest={{ __ftp_user_db_sym }} state=link
+  notify:
+    - restart pure-ftpd
+
+# - Ensure that FTP service is running
+- name: Ensure pure-ftpd is started and enabled to start at boot.
+  service: name=pure-ftpd state=started enabled=yes

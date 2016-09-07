@@ -1,0 +1,10 @@
+---
+# Used only for Debian/Ubuntu installation, as the -t option for apt.
+pureftpd_default_release: ""
+
+ftp_user: "ftp"
+ftp_group: "ftp"
+ftp_root: "/var/ftp"
+virtual_users:
+  - name: ftp
+    dir: "{{ ftp_root }}"
