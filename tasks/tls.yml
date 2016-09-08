@@ -4,13 +4,13 @@
   no_log: true
   set_fact:
     tls_level: 2
-  when: not allow_insecure
+  when: not pure_ftpd_allow_insecure
 
 - name: Define TLS support level.
   no_log: true
   set_fact:
     tls_level: 1
-  when: allow_insecure
+  when: pure_ftpd_allow_insecure
 
 - name: Set TLS config level ({{ tls_level | default(2) }})
   copy: content={{ tls_level | default(2) }} dest={{ __ftp_conf_root }}/TLS owner=root group=root

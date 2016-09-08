@@ -2,16 +2,16 @@
 # Used only for Debian/Ubuntu installation, as the -t option for apt.
 pureftpd_default_release: ""
 
-ftp_user: "ftp"
-ftp_group: "ftp"
-ftp_root: "/var/ftp"
-virtual_users:
+pure_ftpd_user: "ftp"
+pure_ftpd_group: "ftp"
+pure_ftpd_root: "/var/ftp"
+pure_ftpd_vusers:
   - name: ftp
     dir: "{{ ftp_root }}"
     password: "FTPisSoC00l?"
-enable_tls: true
-allow_insecure: false
-openssl_config:
+pure_ftpd_tls: true
+pure_ftpd_allow_insecure: false
+pure_ftpd_openssl_config:
   days: "365"
   size: "2048"
   country: ""

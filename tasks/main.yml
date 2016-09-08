@@ -8,21 +8,21 @@
   when: ansible_os_family == 'Debian'
 
 # Pure-FTPd setup
-- name: Create the FTP system group '{{ ftp_group }}'
-  group: name={{ ftp_group }} state=present
+- name: Create the FTP system group '{{ pure_ftpd_group }}'
+  group: name={{ pure_ftpd_group }} state=present
 
-- name: Create the FTP system user '{{ ftp_user }}'
-  user: name={{ ftp_user }} group={{ ftp_group }} home=/dev/null shell=/sbin/nologin state=present
+- name: Create the FTP system user '{{ pure_ftpd_user }}'
+  user: name={{ pure_ftpd_user }} group={{ pure_ftpd_group }} home=/dev/null shell=/sbin/nologin state=present
 
-- name: Create FTP server root directory '{{ ftp_root }}'
-  file: dest={{ ftp_root }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
+- name: Create FTP server root directory '{{ pure_ftpd_root }}'
+  file: dest={{ pure_ftpd_root }} mode=0755 state=directory owner={{ pure_ftpd_user }} group={{ pure_ftpd_group }}
 
 - include: tls.yml
-  when: enable_tls
+  when: pure_ftpd_tls
 
 # Create the virtual FTP users and set their passwords
 - include: virtual-user.yml
-  with_items: "{{ virtual_users }}"
+  with_items: "{{ pure_ftpd_vusers }}"
 
 - name: Link virtual FTP user database to the correct location
   file: src={{ __ftp_user_db }} dest={{ __ftp_user_db_sym }} state=link

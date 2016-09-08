@@ -12,19 +12,19 @@ None.
 
 Available variables are listed below, along with default values (see `defaults/main.yml`):
 
-    ftp_root: "/var/ftp"
+    pure_ftpd_root: "/var/ftp"
 
 A directory path at which to scope the FTP server access.
 
-    ftp_user: "ftp"
+    pure_ftpd_user: "ftp"
 
 The system-level user that the FTP daemon performs operations under.  This user is setup without login permissions (can't ssh into system) but owns all of the files uploaded via the FTP server.
 
-    ftp_group: "ftp-sys-group"
+    pure_ftpd_group: "ftp-sys-group"
 
 The system-level group that the FTP daemon performs operations under.  This is the group assigned to all files uploaded via the FTP server.
 
-    virtual_users:
+    pure_ftpd_vusers:
       - name: "ftp"
         password: "FTPisSoC00l?"
         dir: "/var/ftp" # optional
@@ -33,11 +33,11 @@ A list of user definitions virtual FTP users. If left empty, defaults to a singl
 
 Since the array of `virtual_users` needs to contain secret credentials, it is recommended to create an [Ansible Vault][vault]-encrypted variable file to include that contains your users and overrides the role default vars.
 
-    enable_tls: true
+    pure_ftpd_tls: true
 
 Turns on/off support for FTP TLS encryption.  It is strongly recommended that this remain `true`.
 
-    allow_insecure: false
+    pure_ftpd_allow_insecure: false
 
 When TLS encryption is enabled, the default is to not allow non-encrypted, insecure connections.  Setting this value to `true` will allow both secure and insecure connections.  Requires that `enable_tls` be `true`.
 
@@ -47,7 +47,7 @@ The contents of the PEM certificate to use for FTP TLS encryption.  It is recomm
 
 If no `pure_ftpd_pem` is provided, a PEM certificate is generated using `openssl`.
 
-    openssl_config: {}
+    pure_ftpd_openssl_config: {}
 
 The `openssl_config` vars object controls the generation of an openssl PEM certificate + key combination.
 
