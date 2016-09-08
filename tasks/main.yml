@@ -13,9 +13,9 @@
   group: name={{ ftp_group }} state=present
 
 - name: Create the FTP system user '{{ ftp_user }}'
-  user: name={{ ftp_user }} group={{ ftp_group }} home=/dev/null shell=/sbin/nologin
+  user: name={{ ftp_user }} group={{ ftp_group }} home=/dev/null shell=/sbin/nologin state=present
 
-- name: Create FTP server root directory
+- name: Create FTP server root directory '{{ ftp_root }}'
   file: dest={{ ftp_root }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
 
 # Create the virtual FTP users and set their passwords

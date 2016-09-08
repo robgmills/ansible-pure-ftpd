@@ -8,3 +8,4 @@ ftp_root: "/var/ftp"
 virtual_users:
   - name: ftp
     dir: "{{ ftp_root }}"
+    password: "FTPisSoC00l?"

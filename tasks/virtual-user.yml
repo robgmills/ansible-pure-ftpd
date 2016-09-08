@@ -1,9 +1,10 @@
 ---
-#- name: Check if this was called in a loop
-#  debug: msg="User '{{ item.name }}' has virtual root '{{ item.dir | default( ftp_root ) }}'"
-
-- name: Create directory for virtual FTP user {{ item.name }}
-  file: dest={{ virtual_root }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
+- name: Create directory {{ item.dir | default( ftp_root ) }} for virtual FTP user {{ item.name }}
+  file: dest={{ item.dir | default( ftp_root ) }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
 
 - name: Create virtual FTP user {{ item.name }}
-  command: pure-pw useradd {{ item.name }} -u {{ ftp_user }} -g {{ ftp_group }} -d {{ virtual_root }} -m
+  expect:
+    command: pure-pw useradd {{ item.name }} -u {{ ftp_user }} -g {{ ftp_group }} -d {{ item.dir | default( ftp_root ) }} -m
+    responses:
+      (?i)password: "{{ item.password }}"
+      (?i)enter it again: "{{ item.password }}"

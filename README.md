@@ -26,9 +26,12 @@ The system-level group that the FTP daemon performs operations under.  This is t
 
     virtual_users:
       - name: "ftp"
+        password: "FTPisSoC00l?"
         dir: "/var/ftp" # optional
 
-A list of user definitions virtual FTP users. If left empty, defaults to a single user with the username `ftp` and password `ftp`.  `name` is a required filed.  `dir` is optional and defaults to the value of `ftp_root`.
+A list of user definitions virtual FTP users. If left empty, defaults to a single user with the username `ftp` and password `ftp`.  `name` and `password` are required fields.  `dir` is optional and defaults to the value of `ftp_root`.
+
+Since the array of `virtual_users` needs to contain secret credentials, it is recommended to create an [Ansible Vault](http://docs.ansible.com/ansible/playbooks_vault.html)-encrypted variable file to include that contains your users and overrides the role default vars.
 
 ## Dependencies
 

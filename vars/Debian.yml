@@ -1,3 +1,7 @@
 ---
 __ftp_user_db: "/etc/pure-ftpd/conf/PureDB"
 __ftp_user_db_sym: "/etc/pure-ftpd/auth/60puredb"
+__virtual_users:
+  - name: ftp
+    dir: "{{ ftp_root }}"
+    password: "FTPisSoC00l?"

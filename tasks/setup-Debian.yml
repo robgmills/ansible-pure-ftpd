@@ -7,3 +7,14 @@
     name: "pure-ftpd"
     state: installed
     default_release: "{{ pureftpd_default_release }}"
+
+# TODO: Check to see if python + pip + pexpect are already installed.  If not, uninstall at end of script.
+- name: Install python + pip
+  apt:
+    name: "python-pip"
+    state: present
+
+- name: Install pexpect
+  pip:
+    name: "pexpect"
+    state: present
