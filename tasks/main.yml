@@ -8,7 +8,6 @@
   when: ansible_os_family == 'Debian'
 
 # Pure-FTPd setup
-# TODO: change the server config files?
 - name: Create the FTP system group '{{ ftp_group }}'
   group: name={{ ftp_group }} state=present
 
