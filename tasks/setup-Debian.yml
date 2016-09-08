@@ -17,3 +17,8 @@
   pip:
     name: "pexpect"
     state: present
+
+- name: Install openssl
+  apt:
+    name: "openssl"
+    state: present

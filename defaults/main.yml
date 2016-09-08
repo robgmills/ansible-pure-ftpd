@@ -9,3 +9,13 @@ virtual_users:
   - name: ftp
     dir: "{{ ftp_root }}"
     password: "FTPisSoC00l?"
+openssl_config:
+  days: "365"
+  size: "2048"
+  country: ""
+  state: ""
+  locality: ""
+  org: ""
+  unit: ""
+  common: ""
+  email: ""

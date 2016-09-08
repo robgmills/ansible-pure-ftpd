@@ -1,6 +1,0 @@
----
-- name: restart pure-ftpd
-  service: name=pure-ftpd state=restarted
-
-- name: reload pure-ftpd
-  service: name=pure-ftpd state=reloaded

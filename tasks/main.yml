@@ -17,6 +17,30 @@
 - name: Create FTP server root directory '{{ ftp_root }}'
   file: dest={{ ftp_root }} mode=0755 state=directory owner={{ ftp_user }} group={{ ftp_group}}
 
+- name: Set TLS config level
+  copy: content=2 dest={{ __ftp_conf_root }}/TLS owner=root group=root
+
+- name: Install configured TLS PEM for pure-ftpd
+  no_log: True
+  copy: content="{{ pure_ftpd_pem }}" dest=/etc/ssl/private/pure-ftpd.pem owner=root group=root
+  when: pure_ftpd_pem is defined
+
+- name: Generate TLS PEM for pure-ftpd
+  expect:
+    command: openssl req -x509 -nodes -days {{ openssl_config.days }} -newkey rsa:{{ openssl_config.size }} -keyout /etc/ssl/private/pure-ftpd.pem -out /etc/ssl/private/pure-ftpd.pem
+    responses:
+      (?i)country name: "{{ openssl_config.country }}"
+      (?i)state or province name: "{{ openssl_config.state }}"
+      (?i)locality name: "{{ openssl_config.locality }}"
+      (?i)organization name: "{{ openssl_config.org }}"
+      (?i)organizational unit name: "{{ openssl_config.unit }}"
+      (?i)common name: "{{ openssl_config.common }}"
+      (?i)email address: "{{ openssl_config.email }}"
+  when: pure_ftpd_pem is not defined
+
+- name: Restrict permissions on PEM
+  file: state=file path=/etc/ssl/private/pure-ftpd.pem mode=0600 owner=root group=root
+
 # Create the virtual FTP users and set their passwords
 - include: virtual-user.yml
   with_items: "{{ virtual_users }}"
@@ -26,8 +50,9 @@
 
 - name: Link virtual FTP user database to the correct location
   file: src={{ __ftp_user_db }} dest={{ __ftp_user_db_sym }} state=link
-  notify:
-    - restart pure-ftpd
+
+- name: Restart pure-ftpd to pick up configuration changes
+  service: name=pure-ftpd state=restarted
 
 # - Ensure that FTP service is running
 - name: Ensure pure-ftpd is started and enabled to start at boot.
