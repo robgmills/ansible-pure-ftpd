@@ -33,6 +33,14 @@ A list of user definitions virtual FTP users. If left empty, defaults to a singl
 
 Since the array of `virtual_users` needs to contain secret credentials, it is recommended to create an [Ansible Vault][vault]-encrypted variable file to include that contains your users and overrides the role default vars.
 
+    enable_tls: true
+
+Turns on/off support for FTP TLS encryption.  It is strongly recommended that this remain `true`.
+
+    allow_insecure: false
+
+When TLS encryption is enabled, the default is to not allow non-encrypted, insecure connections.  Setting this value to `true` will allow both secure and insecure connections.  Requires that `enable_tls` be `true`.
+
     pure_ftpd_pem: ""
 
 The contents of the PEM certificate to use for FTP TLS encryption.  It is recommended to create an [Ansible Vault][vault]-encrypted variable file to include that contains your PEM certificate.

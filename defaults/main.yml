@@ -9,6 +9,8 @@ virtual_users:
   - name: ftp
     dir: "{{ ftp_root }}"
     password: "FTPisSoC00l?"
+enable_tls: true
+allow_insecure: false
 openssl_config:
   days: "365"
   size: "2048"
