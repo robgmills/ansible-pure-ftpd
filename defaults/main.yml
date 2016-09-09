@@ -7,7 +7,7 @@ pure_ftpd_group: "ftp"
 pure_ftpd_root: "/var/ftp"
 pure_ftpd_vusers:
   - name: ftp
-    dir: "{{ ftp_root }}"
+    dir: "{{ pure_ftpd_root }}"
     password: "FTPisSoC00l?"
 pure_ftpd_tls: true
 pure_ftpd_allow_insecure: false

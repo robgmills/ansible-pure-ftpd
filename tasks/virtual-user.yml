@@ -1,5 +1,5 @@
 ---
-- name: Create directory {{ item.dir | default( ftp_root ) }} for virtual FTP user {{ item.name }}
+- name: Create directory {{ item.dir | default( pure_ftpd_root ) }} for virtual FTP user {{ item.name }}
   file: dest={{ item.dir | default( pure_ftpd_root ) }} mode=0755 state=directory owner={{ pure_ftpd_user }} group={{ pure_ftpd_group}}
 
 - name: Check if virtual FTP user {{ item.name }} exists
