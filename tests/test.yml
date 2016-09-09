@@ -1,4 +1,5 @@
 ---
-- hosts: server
+- hosts: localhost
+  remote_user: root
   roles:
     - role: ansible-pure-ftpd
