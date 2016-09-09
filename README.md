@@ -79,7 +79,7 @@ None.
 
     - hosts: server
       roles:
-        - { role: robgmills.pure-ftpd }
+        - role: robgmills.pure-ftpd
 
 ## License
 
