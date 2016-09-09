@@ -1,5 +1,7 @@
 # Ansible Role: Pure-FTPd
 
+[![Build Status](https://travis-ci.org/robgmills/ansible-pure-ftpd.svg?branch=master)](https://travis-ci.org/robgmills/ansible-pure-ftpd)
+
 Installs Pure-FTPd on Debian/Ubuntu Linux.
 
 This role installs and configures the latest version of Pure-FTPd from the Pure-FTPd via apt (on Debian-based systems).  You will likely need to do extra setup work after this role has installed Pure-FTPd.
