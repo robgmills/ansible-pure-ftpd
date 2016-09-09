@@ -83,6 +83,18 @@ None.
       roles:
         - role: robgmills.pure-ftpd
 
+## Try It!
+
+From the root of the project:
+
+    vagrant up
+
+...then...
+
+    ansible-playbook -i inventory -b -u vagrant -k playbook.yml
+
+...then use your favorite FTPS client to connect to `ftps://ftp:FTPisSoC00l?@192.168.50.2`
+
 ## License
 
 MIT / BSD
