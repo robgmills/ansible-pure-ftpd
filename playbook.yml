@@ -1,0 +1,5 @@
+---
+- hosts: 192.168.50.2
+  become: true
+  roles:
+    - ansible-pure-ftpd
