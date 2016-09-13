@@ -2,23 +2,14 @@
 - name: Update apt cache.
   apt: update_cache=yes cache_valid_time=86400
 
-- name: Ensure pure-ftpd is installed.
-  apt:
-    name: "pure-ftpd"
-    state: installed
-    default_release: "{{ pureftpd_default_release }}"
-
-- name: Install python + pip
-  apt:
-    name: "python-pip"
-    state: present
+- name: Ensure requisite apt packages are installed.
+  apt: name={{ item }} state=present default_release={{ pureftpd_default_release }}
+  with_items:
+    - pure-ftpd
+    - python-pip
+    - openssl
 
 - name: Install pexpect
   pip:
     name: "pexpect"
-    state: present
-
-- name: Install openssl
-  apt:
-    name: "openssl"
     state: present

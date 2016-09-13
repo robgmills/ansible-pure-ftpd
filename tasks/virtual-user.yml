@@ -2,11 +2,14 @@
 - name: Create directory {{ item.dir | default( pure_ftpd_root ) }} for virtual FTP user {{ item.name }}
   file: dest={{ item.dir | default( pure_ftpd_root ) }} mode=0755 state=directory owner={{ pure_ftpd_user }} group={{ pure_ftpd_group}}
 
+- name: Check if pure-pw passwords file exists
+  stat: path={{ __ftp_passwd }}
+  register: r_passwd
+
 - name: Check if virtual FTP user {{ item.name }} exists
   command: pure-pw show {{ item.name }}
-  ignore_errors: yes
-  no_log: true
   register: r_userexists
+  when: r_passwd.stat.exists
 
 - name: Create virtual FTP user {{ item.name }}
   expect:
@@ -14,7 +17,7 @@
     responses:
       (?i)password: "{{ item.password }}"
       (?i)enter it again: "{{ item.password }}"
-  when: r_userexists|failed
+  when: (r_userexists|failed) or (not r_passwd.stat.exists)
 
 - name: Update virtual FTP user {{ item.name }}
   command: pure-pw usermod {{ item.name }} -u {{ pure_ftpd_user }} -g {{ pure_ftpd_group }} -d {{ item.dir | default( pure_ftpd_root ) }} -m

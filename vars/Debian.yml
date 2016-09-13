@@ -1,4 +1,6 @@
 ---
-__ftp_conf_root: "/etc/pure-ftpd/conf"
+__ftp_root: "/etc/pure-ftpd"
+__ftp_passwd: "{{ __ftp_root }}/pureftpd.passwd"
+__ftp_conf_root: "{{ __ftp_root }}/conf"
 __ftp_user_db: "{{ __ftp_conf_root }}/PureDB"
-__ftp_user_db_sym: "/etc/pure-ftpd/auth/60puredb"
+__ftp_user_db_sym: "{{ __ftp_root }}/auth/60puredb"
