@@ -17,6 +17,7 @@
 - name: Create FTP server root directory '{{ pure_ftpd_root }}'
   file: dest={{ pure_ftpd_root }} mode=0755 state=directory owner={{ pure_ftpd_user }} group={{ pure_ftpd_group }}
 
+# Create and/or install SSL certificate
 - include: tls.yml
   when: pure_ftpd_tls
 
@@ -26,9 +27,11 @@
 
 - name: Link virtual FTP user database to the correct location
   file: src={{ __ftp_user_db }} dest={{ __ftp_user_db_sym }} state=link
+  register: r_linkdb
 
-- name: Restart pure-ftpd to pick up configuration changes
+- name: Restart pure-ftpd
   service: name=pure-ftpd state=restarted
+  when: r_linkdb.changed
 
 # - Ensure that FTP service is running
 - name: Ensure pure-ftpd is started and enabled to start at boot.

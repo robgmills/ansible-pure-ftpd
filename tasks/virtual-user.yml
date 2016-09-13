@@ -10,6 +10,7 @@
   command: pure-pw show {{ item.name }}
   register: r_userexists
   when: r_passwd.stat.exists
+  changed_when: "r_userexists.rc != 0"
 
 - name: Create virtual FTP user {{ item.name }}
   expect:
