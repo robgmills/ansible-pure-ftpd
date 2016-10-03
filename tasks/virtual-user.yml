@@ -11,6 +11,7 @@
   register: r_userexists
   when: r_passwd.stat.exists
   changed_when: "r_userexists.rc != 0"
+  ignore_errors: true
 
 - name: Create virtual FTP user {{ item.name }}
   expect:
