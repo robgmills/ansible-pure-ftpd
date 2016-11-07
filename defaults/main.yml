@@ -2,9 +2,16 @@
 # Used only for Debian/Ubuntu installation, as the -t option for apt.
 pureftpd_default_release: ""
 
+pure_ftpd_user_create: true
 pure_ftpd_user: "ftp"
 pure_ftpd_group: "ftp"
 pure_ftpd_root: "/var/ftp"
+pure_ftpd_UnixAuthentication: "no"
+pure_ftpd_PAMAuthentication: "no"
+pure_ftpd_MinUID: "1000"
+pure_ftpd_DisplayDotFiles: "yes"
+pure_ftpd_Umask: "002 002"
+pure_ftpd_PassivePortRange: "30000 50000"
 pure_ftpd_vusers:
   - name: ftp
     dir: "{{ pure_ftpd_root }}"

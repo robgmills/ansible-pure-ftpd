@@ -10,9 +10,11 @@
 # Pure-FTPd setup
 - name: Create the FTP system group '{{ pure_ftpd_group }}'
   group: name={{ pure_ftpd_group }} state=present
+  when: pure_ftpd_user_create
 
 - name: Create the FTP system user '{{ pure_ftpd_user }}'
-  user: name={{ pure_ftpd_user }} group={{ pure_ftpd_group }} home=/dev/null shell=/sbin/nologin state=present
+  user: name={{ pure_ftpd_user }} groups={{ pure_ftpd_group }},www-data home=/dev/null shell=/sbin/nologin state=present append=yes
+  when: pure_ftpd_user_create
 
 - name: Create FTP server root directory '{{ pure_ftpd_root }}'
   file: dest={{ pure_ftpd_root }} mode=0755 state=directory owner={{ pure_ftpd_user }} group={{ pure_ftpd_group }}
@@ -28,6 +30,16 @@
 - name: Link virtual FTP user database to the correct location
   file: src={{ __ftp_user_db }} dest={{ __ftp_user_db_sym }} state=link
   register: r_linkdb
+
+- name: Copy pure-ftpd configuration files
+  template: src={{ item }}.j2 dest={{ __ftp_conf_root }}/{{ item }} owner=root group=root mode=0644
+  with_items:
+    - PAMAuthentication
+    - PassivePortRange
+    - Umask
+    - UnixAuthentication
+    - MinUID
+  notify: restart pure-ftpd
 
 - name: Restart pure-ftpd
   service: name=pure-ftpd state=restarted
