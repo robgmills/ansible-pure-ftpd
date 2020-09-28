@@ -19,11 +19,11 @@
     responses:
       (?i)password: "{{ item.password }}"
       (?i)enter it again: "{{ item.password }}"
-  when: (r_userexists|failed) or (not r_passwd.stat.exists)
+  when: (r_userexists is failed) or (not r_passwd.stat.exists)
 
 - name: Update virtual FTP user {{ item.name }}
   command: pure-pw usermod {{ item.name }} -u {{ pure_ftpd_user }} -g {{ pure_ftpd_group }} -d {{ item.dir | default( pure_ftpd_root ) }} -m
-  when: r_userexists|success
+  when: r_userexists is succeeded
 
 - name: Update virtual FTP user {{ item.name }} password
   expect:
@@ -31,4 +31,4 @@
     responses:
       (?i)password: "{{ item.password }}"
       (?i)enter it again: "{{ item.password }}"
-  when: r_userexists|success
+  when: r_userexists is succeeded
